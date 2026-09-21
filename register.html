@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>দর্পণ — দোকান রেজিস্ট্রেশন</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased">
+  <div class="app-shell">
+    <!-- Screen 2: Shop registration form -->
+    <header id="site-header" data-variant="back" data-back="index.html"></header>
+
+    <main class="px-4 pb-10 pt-5">
+      <h1 class="text-[22px] font-extrabold leading-snug text-navy" data-i18n="reg.title"></h1>
+      <p class="mt-1 text-sm text-slate-500" data-i18n="reg.sub"></p>
+
+      <!-- TODO: POST /api/shops with this form (multipart for the logo). -->
+      <form id="register-form" class="mt-5 space-y-4" novalidate>
+        <div>
+          <label for="shop-name" class="mb-1.5 block text-sm font-semibold text-slate-700" data-i18n="reg.shopName"></label>
+          <input id="shop-name" name="shopName" type="text" class="h-12 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-[15px] outline-none focus:border-accent focus:ring-2 focus:ring-accent/20" data-i18n-placeholder="reg.ph.shopName">
+        </div>
+
+        <div>
+          <label for="owner-name" class="mb-1.5 block text-sm font-semibold text-slate-700" data-i18n="reg.owner"></label>
+          <input id="owner-name" name="ownerName" type="text" class="h-12 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-[15px] outline-none focus:border-accent focus:ring-2 focus:ring-accent/20" data-i18n-placeholder="reg.ph.owner">
+        </div>
+
+        <div class="grid grid-cols-[1fr_7.5rem] gap-3">
+          <div>
+            <label for="phone" class="mb-1.5 block text-sm font-semibold text-slate-700" data-i18n="reg.phone"></label>
+            <input id="phone" name="phone" type="tel" inputmode="tel" class="h-12 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-[15px] outline-none focus:border-accent focus:ring-2 focus:ring-accent/20" data-i18n-placeholder="reg.ph.phone">
+          </div>
+          <div>
+            <label for="district" class="mb-1.5 block text-sm font-semibold text-slate-700" data-i18n="reg.district"></label>
+            <select id="district" name="district" class="h-12 w-full rounded-xl border border-slate-200 bg-white px-3 text-[15px] outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"></select>
+          </div>
+        </div>
+
+        <div>
+          <label for="address" class="mb-1.5 block text-sm font-semibold text-slate-700" data-i18n="reg.address"></label>
+          <textarea id="address" name="address" rows="2" class="w-full resize-none rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-[15px] outline-none focus:border-accent focus:ring-2 focus:ring-accent/20" data-i18n-placeholder="reg.ph.address"></textarea>
+        </div>
+
+        <fieldset>
+          <legend class="mb-1.5 block text-sm font-semibold text-slate-700" data-i18n="reg.type"></legend>
+          <div id="shop-type" class="grid grid-cols-2 gap-1 rounded-xl bg-slate-100 p-1"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend class="block text-sm font-semibold text-slate-700">
+            <span data-i18n="reg.categories"></span>
+            <span class="ml-1 text-xs font-normal text-slate-400" data-i18n="reg.catHint"></span>
+          </legend>
+          <div id="category-options" class="mt-2 grid grid-cols-3 gap-2.5"></div>
+        </fieldset>
+
+        <div>
+          <p class="mb-1.5 text-sm font-semibold text-slate-700">
+            <span data-i18n="reg.logo"></span>
+            <span class="ml-1 text-xs font-normal text-slate-400" data-i18n="reg.optional"></span>
+          </p>
+          <!-- UI placeholder only. TODO: open a real file picker + upload to storage. -->
+          <button type="button" id="logo-upload" class="flex w-full items-center gap-4 rounded-2xl border-2 border-dashed border-accent/40 bg-accent-50/60 p-4 text-left hover:bg-accent-50">
+            <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-accent shadow-card"><span data-icon="upload" class="h-6 w-6"></span></span>
+            <span>
+              <span class="block font-semibold text-accent" data-i18n="reg.logoCta"></span>
+              <span class="block text-xs text-slate-500" data-i18n="reg.logoHint"></span>
+            </span>
+          </button>
+        </div>
+
+        <p class="flex items-start gap-2 text-xs text-slate-500">
+          <span data-icon="shield" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-600"></span>
+          <span data-i18n="reg.terms"></span>
+        </p>
+
+        <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-2xl bg-navy px-5 py-4 text-base font-bold text-white shadow-lift active:scale-[.99]">
+          <span data-i18n="reg.submit"></span>
+          <span data-icon="arrowRight" class="h-5 w-5"></span>
+        </button>
+      </form>
+    </main>
+  </div>
+
+  <script src="assets/js/mock-data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/pages/register.js"></script>
+</body>
+</html>

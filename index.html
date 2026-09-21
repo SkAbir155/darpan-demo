@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>দর্পণ — ডিজিটাল আয়না</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased">
+  <div class="app-shell">
+    <!-- Screen 1: Landing page -->
+    <header id="site-header" data-variant="main"></header>
+
+    <main>
+      <!-- Hero -->
+      <section class="px-4 pt-4">
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-navy via-navy-700 to-accent px-5 pb-6 pt-5 text-white shadow-lift">
+          <div class="dot-grid pointer-events-none absolute inset-0"></div>
+          <div class="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent/40 blur-2xl"></div>
+
+          <div class="relative">
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold ring-1 ring-white/20">
+              <span data-icon="sparkle" class="h-3.5 w-3.5"></span>
+              <span data-i18n="land.badge"></span>
+            </span>
+            <h1 class="mt-3 text-[27px] font-extrabold leading-[1.3]" data-i18n="land.title"></h1>
+            <p class="mt-2 text-[15px] text-white/80" data-i18n="land.sub"></p>
+
+            <!-- Product collage (filled by landing.js) -->
+            <div id="hero-collage" class="relative mt-5 h-44"></div>
+
+            <div class="mt-5 space-y-2.5">
+              <a href="register.html" class="flex w-full items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3.5 text-[15px] font-bold text-navy shadow-card active:scale-[.99]">
+                <span data-i18n="land.cta"></span>
+                <span data-icon="arrowRight" class="h-5 w-5"></span>
+              </a>
+              <a href="shop.html" class="flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/30 hover:bg-white/10">
+                <span data-icon="eye" class="h-4 w-4"></span>
+                <span data-i18n="land.cta2"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick stats -->
+      <section class="grid grid-cols-3 gap-2 px-4 pt-4">
+        <div class="rounded-2xl bg-navy-50 px-2 py-3 text-center">
+          <div class="text-lg font-extrabold text-navy" data-i18n="land.stat1v"></div>
+          <div class="text-[11px] text-slate-500" data-i18n="land.stat1l"></div>
+        </div>
+        <div class="rounded-2xl bg-navy-50 px-2 py-3 text-center">
+          <div class="text-lg font-extrabold text-navy" data-i18n="land.stat2v"></div>
+          <div class="text-[11px] text-slate-500" data-i18n="land.stat2l"></div>
+        </div>
+        <div class="rounded-2xl bg-navy-50 px-2 py-3 text-center">
+          <div class="text-lg font-extrabold text-navy" data-i18n="land.stat3v"></div>
+          <div class="text-[11px] text-slate-500" data-i18n="land.stat3l"></div>
+        </div>
+      </section>
+
+      <!-- How it works -->
+      <section class="px-4 pt-8">
+        <h2 class="text-xl font-bold text-navy" data-i18n="land.howTitle"></h2>
+        <ol id="how-steps" class="mt-4 space-y-3"></ol>
+      </section>
+
+      <!-- Who it's for -->
+      <section class="px-4 pt-8">
+        <h2 class="text-xl font-bold text-navy" data-i18n="land.forTitle"></h2>
+        <div class="mt-4 grid grid-cols-2 gap-3">
+          <article class="rounded-2xl border border-slate-100 p-4 shadow-card">
+            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 text-navy"><span data-icon="store" class="h-5 w-5"></span></span>
+            <h3 class="mt-3 font-bold text-slate-900" data-i18n="land.for1t"></h3>
+            <p class="mt-1 text-[13px] text-slate-500" data-i18n="land.for1d"></p>
+          </article>
+          <article class="rounded-2xl border border-slate-100 p-4 shadow-card">
+            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-accent-50 text-accent"><span data-icon="bag" class="h-5 w-5"></span></span>
+            <h3 class="mt-3 font-bold text-slate-900" data-i18n="land.for2t"></h3>
+            <p class="mt-1 text-[13px] text-slate-500" data-i18n="land.for2d"></p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Shops already using Darpan -->
+      <section class="pt-8">
+        <h2 class="px-4 text-xl font-bold text-navy" data-i18n="land.shopsTitle"></h2>
+        <div id="shop-list" class="no-scrollbar mt-4 flex gap-3 overflow-x-auto px-4 pb-2"></div>
+      </section>
+
+      <!-- Closing CTA -->
+      <section class="px-4 pt-6">
+        <div class="rounded-3xl bg-navy-50 p-5 text-center">
+          <h2 class="text-lg font-bold text-navy" data-i18n="land.ctaBoxT"></h2>
+          <p class="mt-1 text-sm text-slate-600" data-i18n="land.ctaBoxD"></p>
+          <a href="register.html" class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-navy px-5 py-3.5 text-[15px] font-bold text-white shadow-lift">
+            <span data-i18n="land.cta"></span>
+            <span data-icon="arrowRight" class="h-5 w-5"></span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="px-4 py-8 text-center">
+      <div class="wordmark text-2xl">দর্পণ</div>
+      <p class="mt-1 text-xs text-slate-400" data-i18n="land.footer"></p>
+    </footer>
+  </div>
+
+  <script src="assets/js/mock-data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/pages/landing.js"></script>
+</body>
+</html>
