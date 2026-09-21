@@ -4,8 +4,8 @@
 
   // TODO: fetch the product from the API (GET /api/products/:id).
   const product = getProduct(param('id')) || getProduct(DATA.demoProductId);
-  document.getElementById('site-header').dataset.shop = product.shopId;
-  document.getElementById('site-header').dataset.back = 'shop.html?shop=' + product.shopId;
+  document.getElementById('site-header').dataset.shop = product.shopIds[0];
+  document.getElementById('site-header').dataset.back = 'shop.html?shop=' + product.shopIds[0];
 
   window.renderPage = function () {
     document.getElementById('product-media').innerHTML =

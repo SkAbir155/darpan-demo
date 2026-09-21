@@ -3,24 +3,26 @@
   const { DATA, t, L, num, price, icon, img, productImg, toast, getProduct, param } = window.Darpan;
 
   const product = getProduct(param('id')) || getProduct(DATA.demoProductId);
-  const person = DATA.tryOnPerson;
+  // Stand-in customer photo matching the product's gender (unisex → women).
+  const person = DATA.tryOnPeople[product.gender === 'men' ? 'men' : 'women'];
+  const [left, top, width, height] = person.boxes[product.category];
   const header = document.getElementById('site-header');
-  header.dataset.shop = product.shopId;
+  header.dataset.shop = product.shopIds[0];
   header.dataset.back = 'product.html?id=' + product.id;
   document.getElementById('retry-btn').href = 'product.html?id=' + product.id + '&sheet=1';
 
   // TODO: replace this fake composite with the image returned by the garment-fusion API.
   function personImg() {
-    return img(person.image, person.fallback, 'absolute inset-0 h-full w-full object-cover', '');
+    return img(person.image, 'absolute inset-0 h-full w-full object-cover', '');
   }
 
   window.renderPage = function () {
     document.getElementById('layer-before').innerHTML = personImg();
 
-    // "After" = same portrait + the garment photo blended over the torso.
+    // "After" = same photo + the item laid over the torso / face / feet.
     document.getElementById('layer-after').innerHTML =
       personImg() +
-      '<div class="garment-overlay absolute left-[29%] top-[14%] h-[32%] w-[44%] overflow-hidden mix-blend-multiply">' +
+      '<div class="garment-overlay absolute overflow-hidden' + (person.blend === 'multiply' ? ' mix-blend-multiply' : '') + '" style="left:' + left + '%;top:' + top + '%;width:' + width + '%;height:' + height + '%">' +
         productImg(product, 'h-full w-full object-cover object-[center_55%]') +
       '</div>' +
       '<div class="absolute inset-0 bg-gradient-to-t from-navy/25 via-transparent to-transparent"></div>' +

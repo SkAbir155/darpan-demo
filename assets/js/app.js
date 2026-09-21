@@ -144,6 +144,27 @@
       'store.bannerD': 'যেকোনো পণ্যে ট্যাপ করে নিজের ছবিতে দেখে নিন।',
       'store.try': 'ট্রাই করুন',
 
+      // Storefront filters
+      'filter.all': 'সবাই',
+      'filter.men': 'পুরুষ',
+      'filter.women': 'নারী',
+      'filter.sortDefault': 'সাজান: প্রস্তাবিত',
+      'filter.priceAsc': 'দাম: কম → বেশি',
+      'filter.priceDesc': 'দাম: বেশি → কম',
+      'filter.anyPrice': 'সব দাম',
+      'filter.under': '৳১,৫০০-এর নিচে',
+      'filter.mid': '৳১,৫০০ – ২,৫০০',
+      'filter.over': '৳২,৫০০+',
+      'filter.results': '{n}টি পণ্য পাওয়া গেছে',
+      'filter.clear': 'ফিল্টার মুছুন',
+      'filter.none': 'এই ফিল্টারে কোনো পণ্য নেই',
+
+      // Developer contact
+      'contact.title': 'ডেভেলপারের সাথে যোগাযোগ',
+      'contact.sub': 'দর্পণ নিয়ে প্রশ্ন, মতামত বা পার্টনারশিপের জন্য সরাসরি যোগাযোগ করুন।',
+      'contact.email': 'ইমেইল',
+      'contact.phone': 'ফোন',
+
       // Product
       'prod.tryBadge': 'ভার্চুয়াল ট্রাই উপলব্ধ',
       'prod.inStock': 'স্টকে আছে',
@@ -303,6 +324,25 @@
       'store.bannerD': 'Tap any item to see it on your own photo.',
       'store.try': 'Try on',
 
+      'filter.all': 'All',
+      'filter.men': 'Men',
+      'filter.women': 'Women',
+      'filter.sortDefault': 'Sort: Featured',
+      'filter.priceAsc': 'Price: Low → High',
+      'filter.priceDesc': 'Price: High → Low',
+      'filter.anyPrice': 'Any price',
+      'filter.under': 'Under ৳1,500',
+      'filter.mid': '৳1,500 – 2,500',
+      'filter.over': '৳2,500+',
+      'filter.results': '{n} products found',
+      'filter.clear': 'Clear filters',
+      'filter.none': 'No products match these filters',
+
+      'contact.title': 'Contact the developer',
+      'contact.sub': 'Questions, feedback or partnerships? Get in touch directly.',
+      'contact.email': 'Email',
+      'contact.phone': 'Phone',
+
       'prod.tryBadge': 'Virtual try-on available',
       'prod.inStock': 'In stock',
       'prod.size': 'Size',
@@ -426,6 +466,8 @@
     chart: '<path d="M4 20V11M10 20V5M16 20v-6M21 20H3"/>',
     user2: '<circle cx="12" cy="7.5" r="3.5"/><path d="M5.5 20.5c.7-3.8 3.3-5.8 6.5-5.8s5.8 2 6.5 5.8"/><path d="M8.5 21h7"/>',
     heart: '<path d="M12 20s-7.5-4.6-9-9.3C2 7.4 4.2 4.5 7.3 4.5c2 0 3.6 1.1 4.7 2.7 1.1-1.6 2.7-2.7 4.7-2.7 3.1 0 5.3 2.9 4.3 6.2C19.5 15.4 12 20 12 20z"/>',
+    mail: '<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 7l8.5 6 8.5-6"/>',
+    filter: '<path d="M4 6h16M7 12h10M10 18h4"/>',
     lock: '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>'
   };
 
@@ -446,21 +488,28 @@
   }
 
   function shopProducts(shopId, category) {
-    return DATA.products.filter((p) => p.shopId === shopId && (!category || category === 'all' || p.category === category));
+    return DATA.products.filter((p) => p.shopIds.includes(shopId) && (!category || category === 'all' || p.category === category));
   }
 
   function param(name) {
     return new URLSearchParams(location.search).get(name);
   }
 
-  // <img> with a placeholder fallback if the file or remote URL fails.
-  function img(src, fallback, cls, alt) {
-    const fb = fallback ? ' onerror="this.onerror=null;this.src=\'' + fallback + '\'"' : '';
-    return '<img src="' + src + '"' + fb + ' alt="' + (alt || '').replace(/"/g, '&quot;') + '" class="' + (cls || '') + '" loading="lazy">';
+  function img(src, cls, alt) {
+    return '<img src="' + src + '" alt="' + (alt || '').replace(/"/g, '&quot;') + '" class="' + (cls || '') + '" loading="lazy">';
   }
 
   function productImg(p, cls) {
-    return img(p.image, p.fallback, cls, L(p.name));
+    return img(p.image, cls, L(p.name));
+  }
+
+  // Shop profile photo, or coloured initials if the shop has no photo.
+  // `cls` sets size / rounding / text size, e.g. 'h-9 w-9 rounded-full text-sm'.
+  function shopAvatar(shop, cls) {
+    if (shop.avatar) {
+      return '<span class="block shrink-0 overflow-hidden bg-slate-200 ' + cls + '">' + img(shop.avatar, 'h-full w-full object-cover', L(shop.name)) + '</span>';
+    }
+    return '<span class="flex shrink-0 items-center justify-center font-bold text-white ' + cls + '" style="background:' + shop.color + '">' + L(shop.initials) + '</span>';
   }
 
   /* ------------------------------ toast ------------------------------ */
@@ -520,7 +569,7 @@
       el.innerHTML =
         wordmark() +
         '<div class="flex items-center gap-2">' + langToggle() +
-        '<span class="flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold text-white font-bn" style="background:' + shop.color + '">' + L(shop.initials) + '</span></div>';
+        shopAvatar(shop, 'h-9 w-9 rounded-full text-sm') + '</div>';
     } else if (variant === 'customer') {
       // Customer-facing pages: shop identity instead of Darpan chrome.
       const shop = getShop(el.dataset.shop || DATA.demoShopId);
@@ -566,6 +615,33 @@
       '</div>';
   }
 
+  /* ------------------------ developer contact ------------------------ */
+  const DEV_CONTACT = {
+    email: 'dorpon.customer.service@gmail.com',
+    phone: '+88 01986 278727',
+    tel: '+8801986278727'
+  };
+
+  function renderContact() {
+    const el = document.getElementById('dev-contact');
+    if (!el) return;
+    const row = (href, iconName, label, value) =>
+      '<a href="' + href + '" class="flex items-center gap-3 rounded-2xl bg-white/10 p-3 ring-1 ring-white/15 hover:bg-white/15">' +
+        '<span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-navy">' + icon(iconName, 'h-5 w-5') + '</span>' +
+        '<span class="min-w-0"><span class="block text-xs text-white/70">' + label + '</span>' +
+        '<span class="block text-[13px] font-semibold [overflow-wrap:anywhere]">' + value + '</span></span>' +
+      '</a>';
+    el.innerHTML =
+      '<div class="rounded-3xl bg-navy p-5 text-white shadow-lift">' +
+        '<h2 class="text-lg font-bold">' + t('contact.title') + '</h2>' +
+        '<p class="mt-1 text-sm text-white/75">' + t('contact.sub') + '</p>' +
+        '<div class="mt-4 space-y-2.5">' +
+          row('mailto:' + DEV_CONTACT.email, 'mail', t('contact.email'), DEV_CONTACT.email) +
+          row('tel:' + DEV_CONTACT.tel, 'phone', t('contact.phone'), DEV_CONTACT.phone) +
+        '</div>' +
+      '</div>';
+  }
+
   /* --------------------------- static i18n --------------------------- */
   function applyI18n(root) {
     const scope = root || document;
@@ -578,6 +654,7 @@
   function renderAll() {
     renderHeader();
     renderBottomNav();
+    renderContact();
     if (typeof window.renderPage === 'function') window.renderPage();
     applyI18n();
   }
@@ -590,12 +667,19 @@
     }
   });
 
-  document.addEventListener('DOMContentLoaded', renderAll);
+  document.addEventListener('DOMContentLoaded', () => {
+    renderAll();
+    // Content is rendered by JS, so jump to #anchors (e.g. #contact) afterwards.
+    if (location.hash) {
+      const target = document.querySelector(location.hash);
+      if (target) target.scrollIntoView();
+    }
+  });
 
   // Public API for page scripts.
   window.Darpan = {
     DATA, t, L, num, price, icon, img, productImg, toast, param,
-    getShop, getProduct, shopProducts, CATEGORY_ICON,
+    getShop, getProduct, shopProducts, shopAvatar, CATEGORY_ICON,
     get lang() { return lang; }
   };
 })();

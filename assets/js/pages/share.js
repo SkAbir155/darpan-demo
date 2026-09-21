@@ -1,6 +1,6 @@
 /* Screen 5 — QR code + shareable link */
 (function () {
-  const { DATA, t, L, toast, getShop } = window.Darpan;
+  const { DATA, t, L, toast, getShop, shopAvatar } = window.Darpan;
 
   const shop = getShop(DATA.demoShopId);
   // TODO: the backend should issue this short link (e.g. POST /api/shops/:id/share-link).
@@ -19,7 +19,7 @@
 
   window.renderPage = function () {
     document.getElementById('qr-shop').innerHTML =
-      '<span class="flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold text-white" style="background:' + shop.color + '">' + L(shop.initials) + '</span>' +
+      shopAvatar(shop, 'h-8 w-8 rounded-lg text-xs') +
       '<span class="truncate font-bold text-slate-900">' + L(shop.name) + '</span>';
     document.getElementById('share-link').value = shareUrl.replace('https://', '');
   };

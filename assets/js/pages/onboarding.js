@@ -20,14 +20,14 @@
 
   const ILLUSTRATIONS = {
     1: () => phone(
-          '<div class="relative h-full">' + productImg(getProduct('md-01'), 'h-full w-full object-cover') +
+          '<div class="relative h-full">' + productImg(getProduct('w-02'), 'h-full w-full object-cover') +
           '<div class="absolute inset-3 rounded-lg border-2 border-white/80"></div>' +
           '<span class="absolute bottom-3 left-1/2 h-9 w-9 -translate-x-1/2 rounded-full border-4 border-white bg-white/40"></span></div>'
         ) + chip('camera', 'right-2 top-8', 'bg-accent') + chip('sun', 'left-3 bottom-10', 'bg-amber-500'),
 
     2: () => phone(
           '<div class="grid h-full grid-cols-2 gap-1 p-1.5 pt-4">' +
-          ['md-02', 'md-06', 'md-s1', 'md-g1'].map((id) => '<div class="overflow-hidden rounded-md">' + productImg(getProduct(id), 'h-full w-full object-cover') + '</div>').join('') +
+          ['w-01', 'm-02', 'sw-01', 'g-01'].map((id) => '<div class="overflow-hidden rounded-md">' + productImg(getProduct(id), 'h-full w-full object-cover') + '</div>').join('') +
           '</div>'
         ) + chip('grid', 'right-2 top-8', 'bg-accent') + chip('plus', 'left-3 bottom-10', 'bg-emerald-500'),
 
@@ -38,7 +38,7 @@
         ) + chip('share', 'right-2 top-8', 'bg-accent') + chip('printer', 'left-3 bottom-10', 'bg-navy'),
 
     4: () => phone(
-          '<div class="relative h-full">' + productImg(getProduct('md-02'), 'h-full w-full object-cover') +
+          '<div class="relative h-full">' + productImg(getProduct('w-01'), 'h-full w-full object-cover') +
           '<span class="absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1 whitespace-nowrap rounded-full bg-white/95 px-2 py-0.5 text-[10px] font-bold text-navy">' +
           icon('sparkle', 'h-3 w-3 text-accent') + 'AI</span></div>'
         ) + chip('sparkle', 'right-2 top-8', 'bg-accent') + chip('heart', 'left-3 bottom-10', 'bg-rose-500')

@@ -1,6 +1,6 @@
 /* Screen 4 — Product collection builder (shop dashboard) */
 (function () {
-  const { DATA, t, L, num, price, icon, productImg, toast, getShop, shopProducts, CATEGORY_ICON } = window.Darpan;
+  const { DATA, t, L, num, price, icon, productImg, toast, getShop, shopProducts, shopAvatar, CATEGORY_ICON } = window.Darpan;
 
   const shop = getShop(DATA.demoShopId);
   const TABS = ['clothing', 'glasses', 'shoes'];
@@ -9,7 +9,7 @@
   function renderSummary() {
     document.getElementById('shop-summary').innerHTML =
       '<div class="flex items-center gap-3">' +
-        '<span class="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-base font-bold text-navy">' + L(shop.initials) + '</span>' +
+        shopAvatar(shop, 'h-11 w-11 rounded-xl text-base ring-2 ring-white/60') +
         '<div class="min-w-0"><p class="text-xs text-white/70">' + t('col.hello') + '</p>' +
         '<p class="truncate font-bold">' + L(shop.name) + '</p></div>' +
       '</div>' +

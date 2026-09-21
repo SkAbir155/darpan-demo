@@ -1,9 +1,9 @@
 /* Screen 1 — Landing page */
 window.renderPage = function () {
-  const { DATA, t, L, num, icon, productImg, getProduct } = window.Darpan;
+  const { DATA, t, L, num, icon, productImg, getProduct, shopAvatar } = window.Darpan;
 
   // Hero collage: three clothing photos, centre one marked as "tried on".
-  const [left, mid, right] = ['md-04', 'md-02', 'md-06'].map(getProduct);
+  const [left, mid, right] = ['w-08', 'w-01', 'm-02'].map(getProduct);
   document.getElementById('hero-collage').innerHTML =
     '<div class="absolute left-0 top-5 h-36 w-[27%] -rotate-6 overflow-hidden rounded-2xl ring-2 ring-white/40">' + productImg(left, 'h-full w-full object-cover') + '</div>' +
     '<div class="absolute right-0 top-5 h-36 w-[27%] rotate-6 overflow-hidden rounded-2xl ring-2 ring-white/40">' + productImg(right, 'h-full w-full object-cover') + '</div>' +
@@ -35,7 +35,7 @@ window.renderPage = function () {
     const cats = s.categories.map((c) => t('cat.' + c)).join(' · ');
     const typeLabel = s.type === 'online' ? t('shop.online') + ' · ' + s.channel : t('shop.offline');
     return '<a href="shop.html?shop=' + s.id + '" class="w-44 shrink-0 rounded-2xl border border-slate-100 p-3.5 shadow-card">' +
-      '<span class="flex h-11 w-11 items-center justify-center rounded-xl text-sm font-bold text-white" style="background:' + s.color + '">' + L(s.initials) + '</span>' +
+      shopAvatar(s, 'h-11 w-11 rounded-xl text-sm') +
       '<h3 class="mt-2.5 truncate font-bold text-slate-900">' + L(s.name) + '</h3>' +
       '<p class="truncate text-xs text-slate-500">' + L(s.area) + '</p>' +
       '<p class="mt-2 inline-block rounded-full px-2 py-0.5 text-[11px] font-semibold ' + (s.type === 'online' ? 'bg-accent-50 text-accent' : 'bg-navy-50 text-navy') + '">' + typeLabel + '</p>' +
