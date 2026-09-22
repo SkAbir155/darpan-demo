@@ -28,18 +28,18 @@
     const typeLabel = shop.type === 'online' ? t('shop.online') + ' · ' + shop.channel : t('shop.offline');
     // Cover: the shop's own photo (darkened) if it has one, otherwise its brand colour.
     const cover = shop.avatar
-      ? '<div class="relative h-32 overflow-hidden">' + img(shop.avatar, 'h-full w-full object-cover', '') +
+      ? '<div class="relative h-32 overflow-hidden md:h-56">' + img(shop.avatar, 'h-full w-full object-cover', '') +
         '<div class="absolute inset-0 bg-gradient-to-b from-navy-900/60 to-navy-900/20"></div></div>'
       : '<div class="dot-grid h-28" style="background-color:' + shop.color + '"></div>';
 
     document.getElementById('store-hero').innerHTML =
       cover +
-      '<div class="-mt-10 px-4">' +
-        '<div class="relative rounded-2xl bg-white p-4 shadow-card">' +
+      '<div class="wrap -mt-10 md:-mt-16">' +
+        '<div class="relative rounded-2xl bg-white p-4 shadow-card md:max-w-2xl md:p-6">' +
           '<div class="flex items-start gap-3">' +
-            '<div class="-mt-10 rounded-2xl ring-4 ring-white shadow-lift">' + shopAvatar(shop, 'h-16 w-16 rounded-2xl text-xl') + '</div>' +
+            '<div class="-mt-10 rounded-2xl ring-4 ring-white shadow-lift">' + shopAvatar(shop, 'h-16 w-16 rounded-2xl text-xl md:h-24 md:w-24') + '</div>' +
             '<div class="min-w-0 flex-1">' +
-              '<h1 class="text-lg font-extrabold leading-snug text-slate-900">' + L(shop.name) + '</h1>' +
+              '<h1 class="text-lg font-extrabold leading-snug text-slate-900 md:text-2xl">' + L(shop.name) + '</h1>' +
               '<p class="mt-0.5 flex items-center gap-1 text-xs font-semibold text-emerald-600">' + icon('badge', 'h-4 w-4') + t('store.verified') + '</p>' +
             '</div>' +
           '</div>' +
@@ -83,7 +83,7 @@
 
     document.getElementById('store-filters').innerHTML =
       // Men / women + price sort
-      '<div class="flex items-center gap-2">' +
+      '<div class="flex items-center gap-2 md:max-w-xl">' +
         '<div class="flex flex-1 gap-0.5 rounded-xl bg-slate-100 p-1">' + ['all', 'men', 'women'].map(genderBtn).join('') + '</div>' +
         '<label class="relative shrink-0">' +
           '<span class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-navy">' + icon('filter', 'h-4 w-4') + '</span>' +
@@ -93,7 +93,7 @@
         '</label>' +
       '</div>' +
       // Price range chips
-      '<div class="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4">' + ['any', 'under', 'mid', 'over'].map(rangeChip).join('') + '</div>' +
+      '<div class="no-scrollbar bleed flex gap-2 overflow-x-auto">' + ['any', 'under', 'mid', 'over'].map(rangeChip).join('') + '</div>' +
       // Result count + clear
       '<div class="flex items-center justify-between text-xs">' +
         '<span class="text-slate-500">' + t('filter.results', { n: num(resultCount) }) + '</span>' +

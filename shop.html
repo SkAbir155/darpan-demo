@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>মায়ের দোয়া বস্ত্র বিতান — দর্পণ</title>
+  <link rel="icon" type="image/png" href="assets/icons/icon-512.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-512.png">
+  <meta name="theme-color" content="#1F3864">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -20,9 +23,9 @@
     <!-- Shop identity (filled by shop.js) -->
     <section id="store-hero" class="relative"></section>
 
-    <main class="px-4 pb-10">
+    <main class="wrap pb-10">
       <!-- Try-on banner -->
-      <div class="mt-4 flex items-center gap-3 rounded-2xl bg-accent-50 p-3.5">
+      <div class="mt-4 flex items-center gap-3 rounded-2xl bg-accent-50 p-3.5 md:mt-6 md:p-5">
         <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent text-white"><span data-icon="sparkle" class="h-6 w-6"></span></span>
         <div>
           <p class="font-bold text-navy" data-i18n="store.bannerT"></p>
@@ -31,13 +34,13 @@
       </div>
 
       <!-- Category tabs -->
-      <div id="store-tabs" class="no-scrollbar -mx-4 mt-4 flex gap-2 overflow-x-auto px-4" role="tablist"></div>
+      <div id="store-tabs" class="no-scrollbar bleed mt-4 flex gap-2 overflow-x-auto" role="tablist"></div>
 
       <!-- Filters: men / women, price range, price sort -->
       <div id="store-filters" class="mt-3 space-y-2.5"></div>
 
       <!-- Product grid -->
-      <div id="store-grid" class="mt-3 grid grid-cols-2 gap-3"></div>
+      <div id="store-grid" class="mt-3 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4 xl:grid-cols-5"></div>
 
       <p class="mt-8 text-center text-xs text-slate-400">
         <span data-i18n="common.poweredBy"></span> · <span class="wordmark text-sm">দর্পণ</span>

@@ -35,13 +35,34 @@ body {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }
 
-/* Mobile app shell: full width on phones, centred column on desktop. */
+/* App shell: phone-width column on small screens, full-width site on
+   tablets / computers (content is then centred by .wrap). */
 .app-shell {
   max-width: 28rem;
   margin: 0 auto;
   min-height: 100vh;
   background: #fff;
   position: relative;
+}
+@media (min-width: 768px) {
+  .app-shell { max-width: none; }
+}
+
+/* Horizontal page padding that centres content in a 72rem column on wide screens. */
+.wrap {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media (min-width: 768px) {
+  .wrap {
+    padding-left: max(2rem, calc((100% - 72rem) / 2));
+    padding-right: max(2rem, calc((100% - 72rem) / 2));
+  }
+}
+/* Pull a horizontal scroller out to the screen edge on phones only. */
+.bleed { margin-left: -1rem; margin-right: -1rem; padding-left: 1rem; padding-right: 1rem; }
+@media (min-width: 768px) {
+  .bleed { margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0; }
 }
 
 /* Soft blueprint pattern for hero / illustration backgrounds. */

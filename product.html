@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>পণ্যের বিবরণ — দর্পণ</title>
+  <link rel="icon" type="image/png" href="assets/icons/icon-512.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-512.png">
+  <meta name="theme-color" content="#1F3864">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,30 +20,42 @@
   <div class="app-shell">
     <header id="site-header" data-variant="customer" data-back="shop.html"></header>
 
-    <main class="pb-10">
-      <div id="product-media" class="relative aspect-square bg-slate-100"></div>
+    <main class="wrap pb-10 md:grid md:grid-cols-2 md:items-start md:gap-10 md:pt-8">
+      <!-- Product photo: edge-to-edge on phones, rounded card on bigger screens -->
+      <div class="bleed md:sticky md:top-20">
+        <div id="product-media" class="relative aspect-square overflow-hidden bg-slate-100 md:aspect-[4/5] md:rounded-3xl md:shadow-card"></div>
+      </div>
 
-      <div class="px-4">
-        <div id="product-head" class="pt-4"></div>
+      <div>
+        <div id="product-head" class="pt-4 md:pt-0"></div>
 
         <!-- Try-on panel -->
-        <section class="relative mt-4 overflow-hidden rounded-3xl bg-gradient-to-br from-navy to-accent p-4 text-white shadow-lift">
+        <section class="relative mt-4 overflow-hidden rounded-3xl bg-gradient-to-br from-navy to-accent p-4 text-white shadow-lift md:p-6">
           <div class="dot-grid pointer-events-none absolute inset-0"></div>
           <div class="relative">
+            <div class="mb-3 flex items-center justify-between gap-2">
+              <span id="ai-status" class="flex items-center gap-1.5 rounded-full bg-white/15 px-2.5 py-1 text-[11px] font-bold ring-1 ring-white/20"></span>
+              <button type="button" data-ai-settings class="flex items-center gap-1 rounded-full px-2 py-1 text-[11px] font-semibold text-white/80 hover:bg-white/10">
+                <span data-icon="settings" class="h-3.5 w-3.5"></span><span data-i18n="ai.settings"></span>
+              </button>
+            </div>
             <button id="try-cta" type="button" class="flex w-full items-center justify-center gap-2 rounded-2xl bg-white py-3.5 text-[15px] font-bold text-navy shadow-card active:scale-[.99]">
               <span data-icon="sparkle" class="h-5 w-5 text-accent"></span>
               <span data-i18n="prod.tryCta"></span>
             </button>
             <div class="mt-3 grid grid-cols-2 gap-2.5">
-              <button type="button" data-source="gallery" class="flex flex-col items-start gap-2 rounded-2xl bg-white/10 p-3 text-left ring-1 ring-white/20 hover:bg-white/15">
+              <button type="button" data-source="gallery" class="flex flex-col items-start gap-2 rounded-2xl bg-white/10 p-3 text-left ring-1 ring-white/20 hover:bg-white/20">
                 <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15"><span data-icon="gallery" class="h-5 w-5"></span></span>
                 <span class="text-sm font-bold leading-snug" data-i18n="prod.gallery"></span>
               </button>
-              <button type="button" data-source="camera" class="flex flex-col items-start gap-2 rounded-2xl bg-white/10 p-3 text-left ring-1 ring-white/20 hover:bg-white/15">
-                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15"><span data-icon="camera" class="h-5 w-5"></span></span>
+              <!-- Camera: not enabled yet. TODO: getUserMedia() capture. -->
+              <button type="button" disabled class="relative flex cursor-not-allowed flex-col items-start gap-2 rounded-2xl bg-white/5 p-3 text-left opacity-60 ring-1 ring-white/10">
+                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10"><span data-icon="camera" class="h-5 w-5"></span></span>
                 <span class="text-sm font-bold leading-snug" data-i18n="prod.camera"></span>
+                <span class="absolute right-2 top-2 rounded-full bg-amber-400 px-1.5 py-0.5 text-[9px] font-bold text-amber-950" data-i18n="prod.cameraSoon"></span>
               </button>
             </div>
+            <p id="clothing-note" class="mt-3 hidden rounded-xl bg-white/10 px-3 py-2 text-[12px] text-white/85" data-i18n="ai.clothingOnly"></p>
             <p class="mt-3 flex items-center gap-1.5 text-[12px] text-white/75">
               <span data-icon="lock" class="h-3.5 w-3.5 shrink-0"></span>
               <span data-i18n="prod.privacy"></span>
@@ -57,6 +72,9 @@
       </div>
     </main>
 
+    <!-- Hidden file input behind "গ্যালারি থেকে আপলোড" -->
+    <input id="photo-input" type="file" accept="image/*" class="hidden">
+
     <!-- Photo picker bottom sheet -->
     <div id="sheet-backdrop" class="sheet-backdrop fixed inset-0 z-40 bg-slate-900/50"></div>
     <div id="sheet" class="sheet fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-md" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
@@ -72,17 +90,16 @@
           </button>
         </div>
 
-        <!-- UI only. TODO: <input type="file" accept="image/*"> and getUserMedia() for camera. -->
         <div class="mt-4 space-y-2.5">
           <button type="button" data-source="gallery" class="flex w-full items-center gap-3 rounded-2xl border-2 border-navy-100 p-3.5 text-left hover:border-accent hover:bg-accent-50">
             <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-50 text-accent"><span data-icon="gallery" class="h-6 w-6"></span></span>
             <span class="flex-1"><span class="block font-bold text-slate-900" data-i18n="prod.gallery"></span><span class="block text-xs text-slate-500" data-i18n="prod.galleryHint"></span></span>
             <span data-icon="chevronRight" class="h-5 w-5 text-slate-300"></span>
           </button>
-          <button type="button" data-source="camera" class="flex w-full items-center gap-3 rounded-2xl border-2 border-navy-100 p-3.5 text-left hover:border-accent hover:bg-accent-50">
+          <button type="button" disabled class="flex w-full cursor-not-allowed items-center gap-3 rounded-2xl border-2 border-slate-100 p-3.5 text-left opacity-60">
             <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-50 text-navy"><span data-icon="camera" class="h-6 w-6"></span></span>
             <span class="flex-1"><span class="block font-bold text-slate-900" data-i18n="prod.camera"></span><span class="block text-xs text-slate-500" data-i18n="prod.cameraHint"></span></span>
-            <span data-icon="chevronRight" class="h-5 w-5 text-slate-300"></span>
+            <span class="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-800" data-i18n="prod.cameraSoon"></span>
           </button>
         </div>
 
@@ -95,19 +112,31 @@
       </div>
     </div>
 
-    <!-- Fake "AI processing" overlay -->
+    <!-- AI processing overlay (real FASHN call, or demo) -->
     <div id="processing" class="fixed inset-0 z-[70] hidden flex-col items-center justify-center bg-navy-900/95 px-8 text-center text-white">
       <div id="processing-media" class="relative h-64 w-48 overflow-hidden rounded-3xl ring-4 ring-white/20"></div>
-      <p class="mt-6 text-lg font-bold" data-i18n="prod.processing"></p>
-      <p class="mt-1 text-sm text-white/60" data-i18n="prod.processingSub"></p>
-      <div class="mt-5 h-1.5 w-56 overflow-hidden rounded-full bg-white/15">
-        <div id="processing-bar" class="h-full w-0 rounded-full bg-gradient-to-r from-accent to-sky-300 transition-[width] duration-[2200ms] ease-out"></div>
+      <div id="processing-busy">
+        <p id="processing-text" class="mt-6 text-lg font-bold"></p>
+        <p class="mt-1 text-sm text-white/60" data-i18n="proc.hint"></p>
+        <div class="mx-auto mt-5 h-1.5 w-56 overflow-hidden rounded-full bg-white/15">
+          <div id="processing-bar" class="h-full w-0 rounded-full bg-gradient-to-r from-accent to-sky-300 transition-[width] duration-700 ease-out"></div>
+        </div>
+      </div>
+      <div id="processing-error" class="hidden max-w-sm">
+        <p class="mt-6 flex items-center justify-center gap-2 text-lg font-bold"><span data-icon="alert" class="h-6 w-6 text-amber-300"></span><span data-i18n="proc.failed"></span></p>
+        <p id="processing-error-msg" class="mt-2 break-words text-sm text-white/70"></p>
+        <div class="mt-5 grid grid-cols-2 gap-2.5">
+          <button type="button" id="processing-close" class="rounded-2xl border-2 border-white/30 py-3 text-sm font-bold" data-i18n="ai.close"></button>
+          <button type="button" id="processing-retry" class="rounded-2xl bg-white py-3 text-sm font-bold text-navy" data-i18n="proc.retry"></button>
+        </div>
+        <button type="button" data-ai-settings class="mt-3 text-xs font-semibold text-white/70 underline" data-i18n="ai.settings"></button>
       </div>
     </div>
   </div>
 
   <script src="assets/js/mock-data.js"></script>
   <script src="assets/js/app.js"></script>
+  <script src="assets/js/fashn.js"></script>
   <script src="assets/js/pages/product.js"></script>
 </body>
 </html>

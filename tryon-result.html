@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ট্রায়াল ফলাফল — দর্পণ</title>
+  <link rel="icon" type="image/png" href="assets/icons/icon-512.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-512.png">
+  <meta name="theme-color" content="#1F3864">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,53 +15,58 @@
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body class="bg-slate-100 text-slate-800 antialiased">
-  <!-- Screen 8: Mock try-on result (before / after). ?id=<productId> -->
+  <!-- Screen 8: Try-on result (before / after). ?id=<productId>
+       Shows the real FASHN image if one was just generated, otherwise a demo. -->
   <div class="app-shell">
     <header id="site-header" data-variant="customer"></header>
 
-    <main class="px-4 pb-10 pt-4">
+    <main class="wrap pb-10 pt-4 md:pt-8">
       <div class="flex items-center justify-between gap-2">
-        <h1 class="text-xl font-extrabold text-navy" data-i18n="res.title"></h1>
-        <span class="flex shrink-0 items-center gap-1 rounded-full bg-accent-50 px-2.5 py-1 text-xs font-bold text-accent">
-          <span data-icon="sparkle" class="h-3.5 w-3.5"></span><span data-i18n="res.aiBadge"></span>
-        </span>
+        <h1 class="text-xl font-extrabold text-navy md:text-3xl" data-i18n="res.title"></h1>
+        <span id="result-badge" class="flex shrink-0 items-center gap-1 rounded-full bg-accent-50 px-2.5 py-1 text-xs font-bold text-accent"></span>
       </div>
 
-      <!-- Before / after compare slider -->
-      <div id="compare" style="--pos: 38%" class="compare mt-3 aspect-[4/5] rounded-3xl bg-slate-200 shadow-lift">
-        <div id="layer-before" class="layer"></div>
-        <div id="layer-after" class="layer layer-after"></div>
-        <span class="absolute left-3 top-3 rounded-full bg-slate-900/60 px-3 py-1 text-xs font-bold text-white backdrop-blur" data-i18n="res.before"></span>
-        <span class="absolute right-3 top-3 rounded-full bg-navy px-3 py-1 text-xs font-bold text-white" data-i18n="res.after"></span>
-        <div class="divider"></div>
-        <div class="handle flex h-11 w-11 items-center justify-center rounded-full bg-white text-navy shadow-lift">
-          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg>
+      <div class="md:mt-6 md:grid md:grid-cols-[minmax(0,26rem)_1fr] md:items-start md:gap-10">
+        <div>
+          <!-- Before / after compare slider -->
+          <div id="compare" style="--pos: 38%" class="compare mt-3 aspect-[4/5] rounded-3xl bg-slate-200 shadow-lift md:mt-0">
+            <div id="layer-before" class="layer"></div>
+            <div id="layer-after" class="layer layer-after"></div>
+            <span class="absolute left-3 top-3 rounded-full bg-slate-900/60 px-3 py-1 text-xs font-bold text-white backdrop-blur" data-i18n="res.before"></span>
+            <span class="absolute right-3 top-3 rounded-full bg-navy px-3 py-1 text-xs font-bold text-white" data-i18n="res.after"></span>
+            <div class="divider"></div>
+            <div class="handle flex h-11 w-11 items-center justify-center rounded-full bg-white text-navy shadow-lift">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg>
+            </div>
+            <input id="compare-range" type="range" min="0" max="100" value="38" aria-label="Before / after">
+          </div>
+          <p class="mt-2 text-center text-xs text-slate-400" data-i18n="res.drag"></p>
         </div>
-        <input id="compare-range" type="range" min="0" max="100" value="38" aria-label="Before / after">
+
+        <div>
+          <!-- Product + fit score -->
+          <div id="result-product" class="mt-3 md:mt-0"></div>
+
+          <!-- Actions -->
+          <div class="mt-4 grid grid-cols-2 gap-3">
+            <a id="retry-btn" href="product.html" class="flex items-center justify-center gap-2 rounded-2xl border-2 border-navy py-3.5 text-[15px] font-bold text-navy">
+              <span data-icon="refresh" class="h-5 w-5"></span>
+              <span data-i18n="res.retry"></span>
+            </a>
+            <button id="download-btn" type="button" class="flex items-center justify-center gap-2 rounded-2xl bg-navy py-3.5 text-[15px] font-bold text-white shadow-lift">
+              <span data-icon="download" class="h-5 w-5"></span>
+              <span data-i18n="res.download"></span>
+            </button>
+          </div>
+
+          <button id="order-btn" type="button" class="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-accent-50 py-3 text-sm font-bold text-accent">
+            <span data-icon="bag" class="h-5 w-5"></span>
+            <span data-i18n="res.order"></span>
+          </button>
+
+          <p id="result-note" class="mt-4 text-center text-[11px] text-slate-400 md:text-left"></p>
+        </div>
       </div>
-      <p class="mt-2 text-center text-xs text-slate-400" data-i18n="res.drag"></p>
-
-      <!-- Product + fit score -->
-      <div id="result-product" class="mt-3"></div>
-
-      <!-- Actions -->
-      <div class="mt-4 grid grid-cols-2 gap-3">
-        <a id="retry-btn" href="product.html" class="flex items-center justify-center gap-2 rounded-2xl border-2 border-navy py-3.5 text-[15px] font-bold text-navy">
-          <span data-icon="refresh" class="h-5 w-5"></span>
-          <span data-i18n="res.retry"></span>
-        </a>
-        <button id="download-btn" type="button" class="flex items-center justify-center gap-2 rounded-2xl bg-navy py-3.5 text-[15px] font-bold text-white shadow-lift">
-          <span data-icon="download" class="h-5 w-5"></span>
-          <span data-i18n="res.download"></span>
-        </button>
-      </div>
-
-      <button id="order-btn" type="button" class="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-accent-50 py-3 text-sm font-bold text-accent">
-        <span data-icon="bag" class="h-5 w-5"></span>
-        <span data-i18n="res.order"></span>
-      </button>
-
-      <p class="mt-4 text-center text-[11px] text-slate-400" data-i18n="res.note"></p>
     </main>
   </div>
 

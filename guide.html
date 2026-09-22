@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ব্যবহার নির্দেশিকা — দর্পণ</title>
+  <link rel="icon" type="image/png" href="assets/icons/icon-512.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-512.png">
+  <meta name="theme-color" content="#1F3864">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased">
+  <!-- Guide: detailed step-by-step instructions for shopkeepers and customers -->
+  <div class="app-shell">
+    <header id="site-header" data-variant="back" data-back="index.html"></header>
+
+    <!-- Intro -->
+    <section class="wrap pt-4 md:pt-8">
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-navy to-accent p-5 text-white shadow-lift md:p-10">
+        <div class="dot-grid pointer-events-none absolute inset-0"></div>
+        <div class="relative flex items-start gap-4">
+          <span class="hidden h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/15 md:flex"><span data-icon="book" class="h-7 w-7"></span></span>
+          <div>
+            <h1 id="guide-title" class="text-2xl font-extrabold leading-snug md:text-4xl"></h1>
+            <p id="guide-intro" class="mt-2 max-w-3xl text-[15px] text-white/85 md:text-lg"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main class="wrap pb-10 pt-5 lg:grid lg:grid-cols-[15rem_1fr] lg:items-start lg:gap-10 lg:pt-8">
+      <!-- Table of contents: chips on phones, sticky sidebar on computers -->
+      <nav id="guide-toc" class="sticky top-14 z-20 -mx-4 bg-white/95 px-4 py-2 backdrop-blur md:-mx-8 md:px-8 lg:top-20 lg:mx-0 lg:bg-transparent lg:p-0" aria-label="Contents"></nav>
+
+      <div class="pt-4 lg:pt-0">
+        <div id="guide-sections"></div>
+
+        <div class="pt-10">
+          <div id="dev-contact"></div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="wrap py-8 text-center">
+      <div class="wordmark text-2xl">দর্পণ</div>
+      <p class="mt-1 text-xs text-slate-400" data-i18n="land.footer"></p>
+    </footer>
+  </div>
+
+  <script src="assets/js/mock-data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/fashn.js"></script>
+  <script src="assets/js/pages/guide.js"></script>
+</body>
+</html>

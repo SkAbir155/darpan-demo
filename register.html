@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>দর্পণ — দোকান রেজিস্ট্রেশন</title>
+  <link rel="icon" type="image/png" href="assets/icons/icon-512.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-512.png">
+  <meta name="theme-color" content="#1F3864">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,8 +19,9 @@
     <!-- Screen 2: Shop registration form -->
     <header id="site-header" data-variant="back" data-back="index.html"></header>
 
-    <main class="px-4 pb-10 pt-5">
-      <h1 class="text-[22px] font-extrabold leading-snug text-navy" data-i18n="reg.title"></h1>
+    <main class="wrap pb-10 pt-5 md:pt-10">
+      <div class="mx-auto max-w-xl">
+      <h1 class="text-[22px] font-extrabold leading-snug text-navy md:text-3xl" data-i18n="reg.title"></h1>
       <p class="mt-1 text-sm text-slate-500" data-i18n="reg.sub"></p>
 
       <!-- TODO: POST /api/shops with this form (multipart for the logo). -->
@@ -86,6 +90,7 @@
           <span data-icon="arrowRight" class="h-5 w-5"></span>
         </button>
       </form>
+      </div>
     </main>
   </div>
 

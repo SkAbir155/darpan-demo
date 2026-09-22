@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>দর্পণ — QR কোড ও লিংক</title>
+  <link rel="icon" type="image/png" href="assets/icons/icon-512.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-512.png">
+  <meta name="theme-color" content="#1F3864">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,9 +19,13 @@
     <!-- Screen 5: QR code + shareable link -->
     <header id="site-header" data-variant="dashboard"></header>
 
-    <main class="px-4 pb-28 pt-4">
-      <h1 class="text-xl font-extrabold text-navy" data-i18n="share.title"></h1>
-      <p class="mt-1 text-sm text-slate-500" data-i18n="share.sub"></p>
+    <main class="wrap pb-28 pt-4 md:pb-32 md:pt-8">
+      <div class="mx-auto max-w-4xl">
+      <h1 class="text-xl font-extrabold text-navy md:text-3xl" data-i18n="share.title"></h1>
+      <p class="mt-1 text-sm text-slate-500 md:text-base" data-i18n="share.sub"></p>
+
+      <div class="md:mt-6 md:grid md:grid-cols-2 md:items-start md:gap-8">
+      <div>
 
       <!-- QR card -->
       <section class="mt-4 rounded-3xl bg-gradient-to-br from-navy to-accent p-[3px] shadow-lift">
@@ -47,9 +54,12 @@
         <span data-icon="download" class="h-5 w-5"></span>
         <span data-i18n="share.download"></span>
       </button>
+      </div>
+
+      <div>
 
       <!-- Copyable link -->
-      <div class="mt-5">
+      <div class="mt-5 md:mt-0">
         <label for="share-link" class="mb-1.5 flex items-center gap-1.5 text-sm font-semibold text-slate-700">
           <span data-icon="link" class="h-4 w-4 text-accent"></span>
           <span data-i18n="share.linkLabel"></span>
@@ -88,6 +98,9 @@
         <span data-icon="printer" class="mt-0.5 h-4 w-4 shrink-0"></span>
         <span data-i18n="share.print"></span>
       </p>
+      </div>
+      </div>
+      </div>
     </main>
 
     <nav id="bottom-nav" data-active="qr"></nav>
