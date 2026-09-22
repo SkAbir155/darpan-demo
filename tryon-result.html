@@ -16,7 +16,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 antialiased">
   <!-- Screen 8: Try-on result (before / after). ?id=<productId>
-       Shows the real FASHN image if one was just generated, otherwise a demo. -->
+       Shows the real AI image if one was just generated, otherwise a demo. -->
   <div class="app-shell">
     <header id="site-header" data-variant="customer"></header>
 
@@ -26,10 +26,13 @@
         <span id="result-badge" class="flex shrink-0 items-center gap-1 rounded-full bg-accent-50 px-2.5 py-1 text-xs font-bold text-accent"></span>
       </div>
 
+      <!-- Shown when the free AI was busy and a sample result is displayed -->
+      <div id="result-notice"></div>
+
       <div class="md:mt-6 md:grid md:grid-cols-[minmax(0,26rem)_1fr] md:items-start md:gap-10">
         <div>
           <!-- Before / after compare slider -->
-          <div id="compare" style="--pos: 38%" class="compare mt-3 aspect-[4/5] rounded-3xl bg-slate-200 shadow-lift md:mt-0">
+          <div id="compare" style="--pos: 38%" class="compare mt-3 aspect-[3/4] rounded-3xl bg-slate-200 shadow-lift md:mt-0">
             <div id="layer-before" class="layer"></div>
             <div id="layer-after" class="layer layer-after"></div>
             <span class="absolute left-3 top-3 rounded-full bg-slate-900/60 px-3 py-1 text-xs font-bold text-white backdrop-blur" data-i18n="res.before"></span>

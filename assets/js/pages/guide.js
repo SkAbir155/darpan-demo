@@ -47,31 +47,31 @@
               b: ['“পুরুষ” বা “নারী” চেপে শুধু সেই পণ্যগুলো দেখুন।', 'দামের সীমা বেছে নিন: ৳১,৫০০-এর নিচে, ৳১,৫০০–২,৫০০ বা ৳২,৫০০+।', '“সাজান” মেনু থেকে দাম কম → বেশি বা বেশি → কম সাজান।', '“ফিল্টার মুছুন” চাপলে আবার সব পণ্য দেখা যাবে।'] },
             { t: 'পণ্য বেছে নিন', href: 'product.html',
               d: 'যেকোনো পণ্যের ছবিতে চাপ দিলে বিস্তারিত পেজ খুলবে।',
-              b: ['দাম, সাইজ, রং ও বিবরণ দেখুন।', 'নীল বক্সে সবুজ বিন্দু “AI চালু” মানে আসল AI ট্রাই-অন কাজ করবে; হলুদ “ডেমো মোড” মানে নমুনা ফলাফল দেখানো হবে।'] },
-            { t: 'গ্যালারি থেকে আপনার ছবি দিন', href: 'product.html?sheet=1',
-              d: '“গ্যালারি থেকে আপলোড” চাপুন এবং ফোনে থাকা একটি ছবি বেছে নিন।',
+              b: ['দাম, সাইজ, রং ও বিবরণ দেখুন।', 'নীল বক্সে “ফ্রি AI” লেখা থাকলে পণ্যটি AI দিয়ে ট্রাই করা যাবে।'] },
+            { t: 'গ্যালারি থেকে আপনার ছবি দিন', href: 'product.html#try',
+              d: '“আপনার ছবি দিয়ে ট্রাই করুন” বা “গ্যালারি থেকে আপলোড” চাপলেই ফোনের গ্যালারি খুলবে — একটি ছবি বেছে নিন।',
               b: ['সামনে থেকে তোলা, মাথা থেকে অন্তত কোমর পর্যন্ত দেখা যায় এমন ছবি দিন।', 'একা আপনি থাকবেন — অন্য মানুষ বা বড় ব্যাগ যেন শরীর না ঢাকে।', 'ভালো আলো, সোজা হয়ে দাঁড়ানো ভঙ্গি দিলে ফলাফল সবচেয়ে সুন্দর হয়।', 'ক্যামেরা দিয়ে সরাসরি ছবি তোলার সুবিধা শিগগির আসছে।'] },
             { t: 'AI প্রসেসিং-এর জন্য অপেক্ষা করুন', href: null,
               d: 'ছবি দেওয়ার পর AI আপনার ছবিতে পোশাকটি বসাতে শুরু করবে।',
-              b: ['সাধারণত ১৫–৪০ সেকেন্ড লাগে; পেজটি বন্ধ করবেন না।', 'ছবিটি আগে ছোট করে পাঠানো হয়, তাই কম ইন্টারনেটেও চলে।', 'কোনো সমস্যা হলে “আবার চেষ্টা করুন” চাপুন।'] },
+              b: ['সাধারণত ২০–৬০ সেকেন্ড লাগে; পেজটি বন্ধ করবেন না।', 'স্ক্রিনে ধাপগুলো (ছবি → সংযোগ → AI) আর বাকি সময় দেখা যাবে।', 'ছবিটি আগে ছোট করে পাঠানো হয়, তাই কম ইন্টারনেটেও চলে।'] },
             { t: 'ফলাফল দেখুন, তুলনা করুন ও সেভ করুন', href: 'tryon-result.html',
               d: 'ফলাফল পেজে আগে ও পরের ছবি পাশাপাশি দেখানো হয়।',
               b: ['মাঝের গোল হ্যান্ডেল ডানে-বামে টেনে আগে-পরে তুলনা করুন।', '“ডাউনলোড” চেপে ছবিটি ফোনে সেভ করুন বা বন্ধুদের পাঠান।', '“আবার চেষ্টা করুন” চেপে অন্য ছবি দিয়ে ট্রাই করুন।', 'পছন্দ হলে “দোকানে অর্ডার করুন” চাপুন।'] }
           ]
         },
         {
-          id: 'ai', icon: 'sparkle', title: 'AI (FASHN) চালু করা',
-          sub: 'আসল AI ট্রাই-অন FASHN নামের একটি AI সার্ভিস দিয়ে হয়। একবার সেটআপ করলেই চলবে।',
+          id: 'ai', icon: 'sparkle', title: 'AI ট্রাই-অন কীভাবে কাজ করে',
+          sub: 'কোনো অ্যাকাউন্ট, পেমেন্ট বা key লাগে না — সবার জন্য ফ্রি।',
           steps: [
-            { t: 'FASHN অ্যাকাউন্ট খুলুন', href: 'https://app.fashn.ai',
-              d: 'app.fashn.ai-তে গিয়ে ফ্রি অ্যাকাউন্ট খুলুন।',
-              b: ['Billing পেজের “FASHN API” ট্যাব থেকে API ক্রেডিট কিনুন (প্রতিটি ট্রাই-অনে ১ ক্রেডিট লাগে)।', 'ব্যর্থ হওয়া ট্রাই-অনে কোনো ক্রেডিট কাটা হয় না।'] },
-            { t: 'API key তৈরি করুন', href: 'https://app.fashn.ai/api',
-              d: 'Developer API পেজে “Create new API key” চাপুন।',
-              b: ['key-টি সঙ্গে সঙ্গে কপি করে রাখুন — উইন্ডো বন্ধ করলে আর দেখা যাবে না।', 'key কাউকে দেবেন না এবং কোডে বা GitHub-এ লিখবেন না।'] },
-            { t: 'দর্পণে key দিন', href: null, action: 'settings',
-              d: 'যেকোনো পণ্যের পেজে “AI সেটিংস” চাপুন (অথবা নিচের বোতাম)।',
-              b: ['key পেস্ট করে “সংরক্ষণ করুন” চাপুন — এটি শুধু এই ব্রাউজারে থাকবে।', 'সবুজ “AI চালু” দেখা গেলে প্রস্তুত।', 'বড় পরিসরে চালু করার সময় key নিজের সার্ভারে রাখুন (প্রক্সি URL অপশন)।'] }
+            { t: 'ফ্রি ওপেন-সোর্স AI', href: null,
+              d: 'দর্পণ IDM-VTON নামের একটি ওপেন-সোর্স AI মডেল ব্যবহার করে, যা Hugging Face-এ বিনামূল্যে চলে।',
+              b: ['ক্রেতা বা দোকানদার কাউকে সাইন-আপ বা পেমেন্ট করতে হয় না।', 'ছবি দিলেই AI নিজে থেকে বুঝে নেয় শরীরের কোথায় পোশাক বসবে।'] },
+            { t: 'কত সময় লাগে', href: null,
+              d: 'সাধারণত ২০–৬০ সেকেন্ড।',
+              b: ['অনেকে একসাথে ব্যবহার করলে লাইনে অপেক্ষা করতে হতে পারে — স্ক্রিনে দেখাবে আপনার আগে কতজন আছেন।', 'AI কাজ শুরু করলে বাকি সময় সেকেন্ডে দেখানো হয়।', 'যেকোনো সময় “বাতিল করুন” চাপতে পারেন।'] },
+            { t: 'AI ব্যস্ত থাকলে', href: null,
+              d: 'ফ্রি সার্ভিস হওয়ায় মাঝে মাঝে AI ব্যস্ত থাকতে পারে বা দিনের সীমা শেষ হতে পারে।',
+              b: ['তখন আপনাকে আটকে না রেখে সঙ্গে সঙ্গে একটি নমুনা ফলাফল দেখানো হয়।', 'ফলাফল পেজে “AI দিয়ে আবার চেষ্টা” চাপলে একই ছবি দিয়ে আবার চেষ্টা হবে — নতুন করে ছবি বাছতে হবে না।'] }
           ]
         },
         {
@@ -86,12 +86,11 @@
       faq: [
         ['কোনো অ্যাপ ডাউনলোড করতে হবে?', 'না। দর্পণ ওয়েবসাইট, তাই ফোন, ট্যাব বা কম্পিউটারের যেকোনো ব্রাউজারে (Chrome, Safari, Edge) চলে।'],
         ['ইন্টারনেট কতটুকু লাগবে?', 'সাধারণ মোবাইল ডেটাই যথেষ্ট। ছবি পাঠানোর আগে ছোট করে নেওয়া হয়।'],
-        ['আমার ছবি কি কোথাও সংরক্ষণ হয়?', 'ছবি শুধু ট্রাই-অন তৈরির জন্য AI সার্ভারে পাঠানো হয়। দর্পণ ডেমো নিজে কোনো ছবি জমা রাখে না।'],
+        ['আমার ছবি কি কোথাও সংরক্ষণ হয়?', 'ছবি শুধু ট্রাই-অন তৈরির জন্য ফ্রি AI সার্ভারে (Hugging Face) পাঠানো হয়। দর্পণ নিজে কোনো ছবি জমা রাখে না।'],
         ['জুতা ও চশমা কি ট্রাই করা যায়?', 'এখন আসল AI ট্রাই-অন শুধু পোশাকের জন্য। জুতা ও চশমায় আপাতত ডেমো ফলাফল দেখানো হয়।'],
-        ['খরচ কত?', 'দোকানদারের জন্য সেটআপ ফ্রি। AI ট্রাই-অনের প্রতিটি ছবিতে FASHN-এর ১ ক্রেডিট লাগে।'],
-        ['AI key না দিলে কী হবে?', 'সবকিছু চলবে, তবে ফলাফল হবে ডেমো — আপনার ছবির উপর পণ্যের ছবি বসিয়ে দেখানো।']
-      ],
-      aiBtn: 'AI সেটিংস খুলুন'
+        ['খরচ কত?', 'সম্পূর্ণ ফ্রি — দোকানদার বা ক্রেতা কাউকেই টাকা দিতে হয় না।'],
+        ['AI ব্যস্ত থাকলে কী হবে?', 'সঙ্গে সঙ্গে একটি নমুনা ফলাফল দেখানো হয়। পরে “AI দিয়ে আবার চেষ্টা” চাপলে একই ছবি দিয়ে আবার AI চালানো যায়।']
+      ]
     },
 
     en: {
@@ -137,31 +136,31 @@
               b: ['Tap “Men” or “Women” to see only those items.', 'Pick a price range: under ৳1,500, ৳1,500–2,500 or ৳2,500+.', 'Use the “Sort” menu for price low → high or high → low.', 'Tap “Clear filters” to see everything again.'] },
             { t: 'Pick a product', href: 'product.html',
               d: 'Tap any product photo to open its details.',
-              b: ['Check the price, sizes, colours and description.', 'A green “AI on” dot in the blue box means real AI try-on will run; a yellow “Demo mode” shows a sample result.'] },
-            { t: 'Upload your photo from the gallery', href: 'product.html?sheet=1',
-              d: 'Tap “Upload from gallery” and choose a photo on your phone.',
+              b: ['Check the price, sizes, colours and description.', '“Free AI” in the blue box means the item can be tried on with AI.'] },
+            { t: 'Upload your photo from the gallery', href: 'product.html#try',
+              d: 'Tap “Try it with your photo” or “Upload from gallery” — your phone gallery opens straight away. Pick a photo.',
               b: ['Use a front-facing photo showing you from head to at least the waist.', 'Only you in the photo — no other people or big bags covering your body.', 'Good light and a straight, natural pose give the best results.', 'Taking a photo directly with the camera is coming soon.'] },
             { t: 'Wait for the AI', href: null,
               d: 'After you choose a photo, the AI starts fitting the outfit onto you.',
-              b: ['It usually takes 15–40 seconds; keep the page open.', 'Your photo is shrunk before sending, so it works on slow connections.', 'If something goes wrong, tap “Try again”.'] },
+              b: ['It usually takes 20–60 seconds; keep the page open.', 'The screen shows each stage (Photo → Connect → AI) and the time left.', 'Your photo is shrunk before sending, so it works on slow connections.'] },
             { t: 'See, compare and save the result', href: 'tryon-result.html',
               d: 'The result page shows before and after side by side.',
               b: ['Drag the round handle left and right to compare.', 'Tap “Download” to save the image or send it to friends.', 'Tap “Try again” to use a different photo.', 'Like it? Tap “Order from shop”.'] }
           ]
         },
         {
-          id: 'ai', icon: 'sparkle', title: 'Turning on the AI (FASHN)',
-          sub: 'Real AI try-on is powered by an AI service called FASHN. Set it up once.',
+          id: 'ai', icon: 'sparkle', title: 'How the AI try-on works',
+          sub: 'No account, payment or key needed — free for everyone.',
           steps: [
-            { t: 'Open a FASHN account', href: 'https://app.fashn.ai',
-              d: 'Go to app.fashn.ai and create a free account.',
-              b: ['Buy API credits in the “FASHN API” tab of the Billing page (each try-on uses 1 credit).', 'Failed try-ons don’t use credits.'] },
-            { t: 'Create an API key', href: 'https://app.fashn.ai/api',
-              d: 'On the Developer API page, tap “Create new API key”.',
-              b: ['Copy the key right away — you can’t see it again after closing the window.', 'Never share the key or write it into code or GitHub.'] },
-            { t: 'Add the key to Darpan', href: null, action: 'settings',
-              d: 'Tap “AI settings” on any product page (or the button below).',
-              b: ['Paste the key and tap “Save” — it stays in this browser only.', 'When you see the green “AI on”, you’re ready.', 'For a real launch, keep the key on your own server (the proxy URL option).'] }
+            { t: 'Free, open-source AI', href: null,
+              d: 'Darpan uses IDM-VTON, an open-source AI model that runs for free on Hugging Face.',
+              b: ['Neither customers nor shopkeepers need to sign up or pay.', 'From your photo alone, the AI works out where the outfit goes on your body.'] },
+            { t: 'How long it takes', href: null,
+              d: 'Usually 20–60 seconds.',
+              b: ['When many people use it at once there may be a queue — the screen shows how many are ahead of you.', 'Once the AI starts, a countdown shows the seconds left.', 'You can tap “Cancel” at any time.'] },
+            { t: 'If the AI is busy', href: null,
+              d: 'Because it is a free service, the AI is sometimes busy or reaches its daily limit.',
+              b: ['Instead of making you wait, a sample result is shown straight away.', 'Tap “Try again with AI” on the result page to retry with the same photo — no need to pick it again.'] }
           ]
         },
         {
@@ -176,12 +175,11 @@
       faq: [
         ['Do I need to download an app?', 'No. Darpan is a website, so it works in any browser (Chrome, Safari, Edge) on a phone, tablet or computer.'],
         ['How much internet does it need?', 'Normal mobile data is enough. Photos are shrunk before sending.'],
-        ['Is my photo stored anywhere?', 'It is sent to the AI server only to create the try-on. The Darpan demo itself does not keep photos.'],
+        ['Is my photo stored anywhere?', 'It is sent to the free AI server (Hugging Face) only to create the try-on. Darpan itself does not keep photos.'],
         ['Can I try shoes and glasses?', 'Real AI try-on is for clothing only for now. Shoes and glasses show a demo result.'],
-        ['What does it cost?', 'Setup is free for shopkeepers. Each AI try-on image uses 1 FASHN credit.'],
-        ['What if no AI key is added?', 'Everything still works, but results are demos — the product photo laid over your picture.']
-      ],
-      aiBtn: 'Open AI settings'
+        ['What does it cost?', 'Completely free — neither shopkeepers nor customers pay anything.'],
+        ['What if the AI is busy?', 'A sample result is shown right away. Tap “Try again with AI” later to rerun the AI with the same photo.']
+      ]
     }
   };
 
@@ -190,9 +188,6 @@
     const link = step.href
       ? '<a href="' + step.href + '"' + (external ? ' target="_blank" rel="noopener"' : '') + ' class="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-accent hover:underline">' +
           (external ? step.href.replace('https://', '') : g.open) + icon(external ? 'link' : 'chevronRight', 'h-4 w-4') + '</a>'
-      : '';
-    const action = step.action === 'settings'
-      ? '<button type="button" data-ai-settings class="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-navy px-3.5 py-2 text-sm font-bold text-white">' + icon('settings', 'h-4 w-4') + g.aiBtn + '</button>'
       : '';
     return '<li class="relative rounded-2xl border border-slate-100 bg-white p-4 shadow-card md:p-5">' +
       '<div class="flex items-start gap-3">' +
@@ -204,7 +199,7 @@
           '<ul class="mt-2 space-y-1.5">' + step.b.map((x) =>
             '<li class="flex items-start gap-2 text-sm text-slate-600">' + icon('check', 'mt-0.5 h-4 w-4 shrink-0 text-emerald-500') + '<span>' + x + '</span></li>'
           ).join('') + '</ul>' +
-          link + action +
+          link +
         '</div>' +
       '</div>' +
     '</li>';
@@ -260,7 +255,4 @@
       '</section>';
   };
 
-  document.addEventListener('click', (e) => {
-    if (e.target.closest('[data-ai-settings]') && window.DarpanAI) window.DarpanAI.openSettings();
-  });
 })();

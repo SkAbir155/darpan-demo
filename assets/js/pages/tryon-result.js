@@ -1,7 +1,7 @@
 /* Screen 8 — Try-on result (before / after)
    Modes:
-     ai    — real FASHN output + the customer's uploaded photo
-     demo  — customer's uploaded photo with the item laid over it (no API key)
+     ai    — real AI output (IDM-VTON) + the customer's uploaded photo
+     demo  — customer's photo with the item laid over it (shoes/glasses, or AI busy)
      none  — nothing uploaded yet: stand-in photo from /Images (screenshot mode) */
 (function () {
   const { DATA, t, L, num, price, icon, img, productImg, toast, getProduct, param } = window.Darpan;
@@ -10,7 +10,7 @@
   const header = document.getElementById('site-header');
   header.dataset.shop = product.shopIds[0];
   header.dataset.back = 'product.html?id=' + product.id;
-  document.getElementById('retry-btn').href = 'product.html?id=' + product.id + '&sheet=1';
+  document.getElementById('retry-btn').href = 'product.html?id=' + product.id + '#try';
 
   // Result saved by product.js (same tab only).
   let saved = null;
@@ -55,6 +55,15 @@
       icon('sparkle', 'h-3.5 w-3.5') + t(mode === 'ai' ? 'res.aiReal' : 'res.demoBadge');
     document.getElementById('result-note').textContent = t(mode === 'ai' ? 'res.noteReal' : 'res.note');
 
+    // Free AI was busy: say so kindly and offer a one-tap retry with the same photo.
+    document.getElementById('result-notice').innerHTML = saved && saved.fallback
+      ? '<div class="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-900 md:mt-4">' +
+          '<span class="flex items-center gap-2">' + icon('alert', 'h-5 w-5 shrink-0') + t('res.fallback') + '</span>' +
+          '<a href="product.html?id=' + product.id + '&retry=1" class="flex items-center gap-1.5 rounded-xl bg-amber-500 px-3 py-2 text-sm font-bold text-white">' +
+            icon('refresh', 'h-4 w-4') + t('res.retryAi') + '</a>' +
+        '</div>'
+      : '';
+
     const fit = 92; // mock score
     document.getElementById('result-product').innerHTML =
       '<div class="flex items-center gap-3 rounded-2xl border border-slate-100 p-2.5 shadow-card md:p-4">' +
@@ -72,6 +81,10 @@
 
   /* ---------- Compare slider ---------- */
   const compare = document.getElementById('compare');
+  // Match the frame to the customer's photo so before and after line up exactly.
+  if (saved && saved.size && saved.size.width && saved.size.height) {
+    compare.style.aspectRatio = saved.size.width + ' / ' + saved.size.height;
+  }
   document.getElementById('compare-range').addEventListener('input', (e) => {
     compare.style.setProperty('--pos', e.target.value + '%');
   });

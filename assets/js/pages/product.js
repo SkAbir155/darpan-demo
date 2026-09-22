@@ -1,4 +1,5 @@
-/* Screen 7 — Product detail + try-on entry (gallery upload → FASHN AI) */
+/* Screen 7 — Product detail + try-on (gallery photo → free IDM-VTON AI)
+   ?retry=1 re-runs the AI with the photo from the last attempt. */
 (function () {
   const { DATA, t, L, num, price, icon, img, productImg, toast, getProduct, param } = window.Darpan;
   const AI = window.DarpanAI;
@@ -9,18 +10,19 @@
   header.dataset.shop = product.shopIds[0];
   header.dataset.back = 'shop.html?shop=' + product.shopIds[0];
 
-  // FASHN try-on works on garments only; shoes / glasses get the demo result.
+  // The AI model dresses people in garments; shoes / glasses get the demo result.
   const aiSupported = product.category === 'clothing';
   const RESULT_KEY = 'darpan.tryon';
 
   let personPhoto = null; // resized data URL of the customer's photo
-  let useDemo = false;    // visitor chose "see demo result" instead of adding a key
+  let photoSize = null;   // { width, height } of that photo, for the result slider
+  let cancelled = false;
+  let garment = null;     // product photo blob, prepared in the background
 
-  function renderAiStatus() {
-    const on = aiSupported && AI.isConfigured();
-    document.getElementById('ai-status').innerHTML =
-      '<span class="h-2 w-2 rounded-full ' + (on ? 'bg-emerald-400' : 'bg-amber-300') + '"></span>' + t(on ? 'ai.on' : 'ai.off');
-    document.getElementById('clothing-note').classList.toggle('hidden', aiSupported);
+  if (aiSupported) {
+    AI.warmUp();
+    garment = AI.garmentBlob(product.image);
+    garment.catch(() => {}); // handled when used
   }
 
   window.renderPage = function () {
@@ -55,130 +57,176 @@
       ).join('') + '</div></div>';
     document.getElementById('product-options').innerHTML = options;
     document.getElementById('product-desc').textContent = L(product.desc);
-
-    renderAiStatus();
+    document.getElementById('clothing-note').classList.toggle('hidden', aiSupported);
   };
-
-  /* ---------------------------- bottom sheet ---------------------------- */
-  const sheet = document.getElementById('sheet');
-  const backdrop = document.getElementById('sheet-backdrop');
-  function openSheet() { sheet.classList.add('open'); backdrop.classList.add('open'); }
-  function closeSheet() { sheet.classList.remove('open'); backdrop.classList.remove('open'); }
-
-  document.getElementById('try-cta').addEventListener('click', openSheet);
-  document.getElementById('sheet-close').addEventListener('click', closeSheet);
-  backdrop.addEventListener('click', closeSheet);
-  if (param('sheet') === '1') openSheet();
 
   /* --------------------------- gallery upload --------------------------- */
   const photoInput = document.getElementById('photo-input');
 
-  function pickPhoto() {
-    photoInput.value = '';
-    photoInput.click();
-  }
-
   document.addEventListener('click', (e) => {
-    if (e.target.closest('[data-ai-settings]')) {
-      AI.openSettings({ onSave: renderAiStatus });
-      return;
+    if (e.target.closest('[data-pick]')) {
+      photoInput.value = '';
+      photoInput.click();
     }
-    if (!e.target.closest('[data-source="gallery"]')) return;
-    closeSheet();
-    // No key yet: offer to add one, or continue with a demo result.
-    if (aiSupported && !AI.isConfigured() && !useDemo) {
-      AI.openSettings({
-        reason: t('ai.needKey'),
-        onSave: () => { renderAiStatus(); pickPhoto(); },
-        onDemo: () => { useDemo = true; pickPhoto(); }
-      });
-      return;
-    }
-    pickPhoto();
   });
 
   photoInput.addEventListener('change', async () => {
     const file = photoInput.files && photoInput.files[0];
     if (!file) return;
-    showBusy('proc.preparing', 10);
+    personPhoto = null; // don't flash the previous attempt's photo
+    showOverlay();
+    setStage('preparing');
     try {
-      personPhoto = await AI.fileToDataUrl(file);
+      const photo = await AI.fileToJpeg(file);
+      personPhoto = photo.dataUrl;
+      photoSize = { width: photo.width, height: photo.height };
+      setMedia();
+      start(photo.blob);
     } catch (e) {
       hideOverlay();
       toast(t('proc.badFile'));
-      return;
     }
-    run();
   });
 
-  /* ------------------------- processing overlay ------------------------- */
+  /* ---------------------------- progress UI ---------------------------- */
   const overlay = document.getElementById('processing');
   const bar = document.getElementById('processing-bar');
+  const sub = document.getElementById('processing-sub');
+  let etaTimer = null;
 
-  function showBusy(textKey, pct) {
+  const STEPS = ['preparing', 'connecting', 'processing'];
+
+  function showOverlay() {
+    cancelled = false;
+    document.getElementById('processing-text').dataset.stage = '';
     overlay.classList.remove('hidden');
     overlay.classList.add('flex');
-    document.getElementById('processing-busy').classList.remove('hidden');
-    document.getElementById('processing-error').classList.add('hidden');
-    document.getElementById('processing-text').textContent = t(textKey);
-    bar.style.width = pct + '%';
+    setMedia();
   }
 
-  function showError(message) {
-    document.getElementById('processing-busy').classList.add('hidden');
-    document.getElementById('processing-error').classList.remove('hidden');
-    document.getElementById('processing-error-msg').textContent = message;
+  // The customer's own photo (once chosen) is shown being "scanned".
+  function setMedia() {
+    document.getElementById('processing-media').innerHTML = personPhoto
+      ? img(personPhoto, 'h-full w-full object-cover', '') + '<div class="scan-line"></div>'
+      : productImg(product, 'h-full w-full object-cover') + '<div class="scan-line"></div>';
   }
 
   function hideOverlay() {
     overlay.classList.add('hidden');
     overlay.classList.remove('flex');
+    clearInterval(etaTimer);
+    bar.style.transitionDuration = '0s';
+    bar.style.width = '0%';
   }
 
+  function moveBar(pct, seconds) {
+    bar.style.transitionDuration = (seconds || 0.6) + 's';
+    bar.style.width = pct + '%';
+  }
+
+  function renderSteps(stage) {
+    const idx = Math.max(0, STEPS.indexOf(stage === 'queue' ? 'connecting' : stage));
+    document.getElementById('processing-steps').innerHTML = STEPS.map((s, i) => {
+      const state = i < idx ? 'done' : i === idx ? 'now' : 'todo';
+      return (i ? '<li class="h-px w-4 bg-white/25" aria-hidden="true"></li>' : '') +
+        '<li class="flex items-center gap-1.5 ' + (state === 'todo' ? 'text-white/40' : 'text-white') + '">' +
+          '<span class="flex h-5 w-5 items-center justify-center rounded-full ' +
+            (state === 'done' ? 'bg-emerald-400 text-navy-900' : state === 'now' ? 'bg-white text-navy' : 'bg-white/15') + '">' +
+            (state === 'done' ? icon('check', 'h-3 w-3') : num(i + 1)) + '</span>' +
+          t('proc.step' + (i + 1)) + '</li>';
+    }).join('');
+  }
+
+  // Count down the model's own time estimate while the bar fills smoothly.
+  function startEta(eta) {
+    clearInterval(etaTimer);
+    let left = Math.max(5, Math.round(eta || 25));
+    moveBar(95, left);
+    sub.textContent = t('proc.eta', { n: num(left) });
+    etaTimer = setInterval(() => {
+      left -= 1;
+      sub.textContent = left > 0 ? t('proc.eta', { n: num(left) }) : t('proc.almost');
+      if (left <= 0) clearInterval(etaTimer);
+    }, 1000);
+  }
+
+  function setStage(stage, info) {
+    info = info || {};
+    renderSteps(stage);
+    if (stage === 'preparing') {
+      document.getElementById('processing-text').textContent = t('proc.preparing');
+      sub.textContent = '';
+      moveBar(10);
+    } else if (stage === 'connecting') {
+      document.getElementById('processing-text').textContent = t('proc.connecting');
+      sub.textContent = t('proc.hint');
+      moveBar(25, 3);
+    } else if (stage === 'queue') {
+      clearInterval(etaTimer);
+      document.getElementById('processing-text').textContent = t('proc.queue', { n: num(info.position) });
+      sub.textContent = t('proc.hint');
+      moveBar(35, 2);
+    } else if (stage === 'processing') {
+      if (document.getElementById('processing-text').dataset.stage === 'processing') return;
+      document.getElementById('processing-text').textContent = t('proc.processing');
+      startEta(info.eta);
+    } else if (stage === 'demo') {
+      document.getElementById('processing-text').textContent = t('proc.demo');
+      sub.textContent = '';
+      moveBar(100, 1.4);
+    }
+    document.getElementById('processing-text').dataset.stage = stage;
+  }
+
+  /* ------------------------------ try-on ------------------------------ */
   function saveResult(data) {
     try {
-      sessionStorage.setItem(RESULT_KEY, JSON.stringify(Object.assign({ productId: product.id }, data)));
-    } catch (e) { /* storage full / blocked: result page falls back to demo */ }
+      sessionStorage.setItem(RESULT_KEY, JSON.stringify(Object.assign({ productId: product.id, person: personPhoto, size: photoSize }, data)));
+    } catch (e) { /* storage blocked: result page shows the stand-in demo */ }
     location.href = 'tryon-result.html?id=' + product.id;
   }
 
-  async function run() {
-    // Show the customer's own photo being "scanned".
-    document.getElementById('processing-media').innerHTML =
-      img(personPhoto, 'h-full w-full object-cover', '') + '<div class="scan-line"></div>';
-
-    if (!aiSupported || !AI.isConfigured()) {
-      showBusy('proc.demo', 40);
-      setTimeout(() => { bar.style.width = '100%'; }, 50);
-      setTimeout(() => saveResult({ mode: 'demo', person: personPhoto }), 1600);
+  async function start(personBlob) {
+    if (!aiSupported) {
+      setStage('demo');
+      setTimeout(() => saveResult({ mode: 'demo' }), 1500);
       return;
     }
-
-    let pct = 20;
-    showBusy('proc.uploading', pct);
     try {
-      const garment = await AI.productImageForApi(product.image);
-      const resultUrl = await AI.tryOn({
-        person: personPhoto,
-        garment: garment,
-        onStatus: (status) => {
-          pct = Math.min(92, pct + (status === 'processing' ? 6 : 3));
-          showBusy('proc.' + status, pct);
-        }
+      const url = await AI.tryOn({
+        person: personBlob,
+        garment: await garment,
+        description: product.name.en,
+        onStatus: (s) => { if (!cancelled) setStage(s.stage, s); }
       });
-      bar.style.width = '100%';
-      saveResult({ mode: 'ai', person: personPhoto, result: resultUrl });
+      if (cancelled) return;
+      moveBar(100, 0.3);
+      saveResult({ mode: 'ai', result: url });
     } catch (err) {
-      let msg = err.message || '';
-      if (err.timeout) msg = t('proc.timeout');
-      else if (err.status === 401 || err.status === 402 || err.status === 403) msg = t('proc.authError') + ' (' + msg + ')';
-      showError(msg);
+      if (cancelled) return;
+      // Free AI busy / out of daily quota / offline → show the demo result instead of an error.
+      console.warn('AI try-on failed:', err);
+      setStage('demo');
+      setTimeout(() => saveResult({ mode: 'demo', fallback: true }), 1200);
     }
   }
 
-  document.getElementById('processing-close').addEventListener('click', hideOverlay);
-  document.getElementById('processing-retry').addEventListener('click', () => {
-    if (personPhoto) run();
-    else { hideOverlay(); pickPhoto(); }
+  document.getElementById('processing-cancel').addEventListener('click', () => {
+    cancelled = true;
+    AI.cancel();
+    hideOverlay();
   });
+
+  // "AI দিয়ে আবার চেষ্টা করুন" from the result page: reuse the last photo.
+  if (param('retry') === '1' && aiSupported) {
+    let saved = null;
+    try { saved = JSON.parse(sessionStorage.getItem(RESULT_KEY) || 'null'); } catch (e) { /* ignore */ }
+    if (saved && saved.productId === product.id && saved.person) {
+      personPhoto = saved.person;
+      photoSize = saved.size || null;
+      showOverlay();
+      setStage('preparing');
+      AI.dataUrlToBlob(saved.person).then(start);
+    }
+  }
 })();
